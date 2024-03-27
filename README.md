@@ -1,2 +1,2 @@
-# barcode-scanner
-Repositório criado com o intuito de armazenar a atividade de PAMII.
+# projeto-camera-app
+Repositorio criado para o desenvolvimento do aplicativo que usa câmera em PAM-II
