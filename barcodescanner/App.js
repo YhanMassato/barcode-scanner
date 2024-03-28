@@ -10,7 +10,7 @@ export default function App() {
 
   useEffect(() => {
     const getBarCodeScannerPermissions = async() => {
-      cost {status} = await BarCodeScanner.requestPermissionsAsync();
+      const {status} = await BarCodeScanner.requestPermissionsAsync();
       setHasPermission(status === 'granted');
     };
 
@@ -25,7 +25,57 @@ export default function App() {
   }
 
   const handleBarCodeScanned = ({ type, data}) => {
-    
-  
+    setScanned(true);
+    setData(data);
+    alert(`O código de barras é do tipo ${type} e ${data} é o dado que foi escaneado!`);
   }
 
+  const handleOpenLink = () => {
+    Linking.openURL(data);
+  }
+
+  return(
+    <View style={styles.container}>
+      <MaterialCommunityIcons
+        name="qrcode-scan"
+        size={100}
+        color="orange"/>
+      <Text style={styles.container}>Leitor de QR Code</Text>
+      <View style={styles.cameraContainer}>
+        <BarCodeScanner
+          onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+          style={StyleSheet.absoluteFillObject}
+        />
+      </View>
+      {scanned && <Button title={'Toque para digitalizar novamente'} onPress={() => setScanned(false)}/>}
+      {scanned && <View style={styles.segBotao}><Button title={'Abrir link: '+data} onPress={handleOpenLink}/></View>}
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container:{
+    flex: 1,
+    flexDirection:'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  cameraContainer: {
+    width: '90%',
+    aspectRatio: 1,
+    overflow: 'hidden',
+    borderRadius: 10,
+    marginBottom: 40,
+  },
+  titulo: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    color: 'darkorange',
+  },
+  segBotao: {
+    marginTop: 15,
+  }
+
+});
